@@ -1,35 +1,39 @@
 /* globals __DEV__ */
-import Phaser from 'phaser'
-import Mushroom from '../sprites/Mushroom'
+import Phaser from 'phaser';
+import MainTower from '../sprites/MainTower';
+import ArrowTower from '../sprites/ArrowTower';
 
 export default class extends Phaser.State {
   init() { }
   preload() { }
 
   create() {
-    const bannerText = 'Phaser + ES6 + Webpack'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText, {
-      font: '40px Bangers',
-      fill: '#77BFA3',
-      smoothed: false
-    })
-
-    banner.padding.set(10, 16)
-    banner.anchor.setTo(0.5)
-
-    this.mushroom = new Mushroom({
+    this.mainTower = new MainTower({
       game: this.game,
       x: this.world.centerX,
       y: this.world.centerY,
-      asset: 'mushroom'
-    })
+      asset: 'MainTower'
+    });
+    this.arrowTower = new ArrowTower({
+      game: this.game,
+      x: this.world.centerX + 50,
+      y: this.world.centerY + 50,
+      asset: 'ArrowTower',
+      mainTower: this.mainTower
+    });
 
-    this.game.add.existing(this.mushroom)
+    this.game.add.existing(this.mainTower);
+    this.game.add.existing(this.arrowTower);
+
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.game.physics.arcade.enable([this.mainTower, this.arrowTower]);
+    this.game.physics.arcade.createDistanceConstraint(this.mainTower, this.arrowTower, 150);
   }
 
   render() {
     if (__DEV__) {
-      this.game.debug.spriteInfo(this.mushroom, 32, 32)
+      this.game.debug.spriteInfo(this.mainTower, 32, 32);
+      this.game.debug.spriteInfo(this.arrowTower, 32, 32);
     }
   }
 }

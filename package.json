@@ -23,6 +23,7 @@
         "copy-webpack-plugin": "^4.4.1",
         "cordova": "^8.0.0",
         "eslint": "^4.17.0",
+        "eslint-config-airbnb-base": "^12.1.0",
         "eslint-config-standard": "^10.2.1",
         "eslint-plugin-import": "^2.8.0",
         "eslint-plugin-node": "^6.0.0",
