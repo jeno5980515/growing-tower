@@ -32,6 +32,7 @@ export default class extends Phaser.State {
     // this.arrowTower.body.clearCollision(true, true);
 
     this.mainTower.body.static = true;
+    this.arrowTower.body.static = true;
     // this.mainTower.body.setCircle(100);
     // this.outerBound.body.setCircle(300);
     // this.outerBound.body.static = true;
@@ -40,7 +41,7 @@ export default class extends Phaser.State {
     // this.arrowTower.body.setCircle(30);
 
     // this.game.physics.p2.createDistanceConstraint(this.mainTower, this.arrowTower, 150);
-    const constraint = this.game.physics.p2.createRevoluteConstraint(this.mainTower, [30, 70], this.arrowTower, [0, 0]);
+    // const constraint = this.game.physics.p2.createRevoluteConstraint(this.mainTower, [30, 70], this.arrowTower, [0, 0]);
 
   }
 
