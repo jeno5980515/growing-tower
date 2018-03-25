@@ -47,17 +47,32 @@ export default class extends Phaser.Sprite {
     this.newMouseY = this.game.input.mousePointer.position.y;
     this.angle += 3;
     if (this.isMouseDown) {
-      // this.body.static = false;
-      // const dx = this.newMouseX - this.oldMouseX;
-      // const dy = this.newMouseY - this.oldMouseY;
+      const distance = 100;
+      const dx = this.newMouseX - this.mainTower.position.x;
+      const dy = this.newMouseY - this.mainTower.position.y;
+      const angle = this.game.math.angleBetweenPoints(this.mainTower.position, this.game.input.mousePointer.position);
+
       // this.body.x += dx;
       // this.body.y += dy;
-      this.body.x = this.newMouseX;
-      this.body.y = this.newMouseY;
+
+    // this.mainTower.body.static = true;
+      // const distance = this.game.math.distance(this.position.x, this.position.y, this.mainTower.position.x, this.mainTower.position.y);
+      // if ( distance > 100 || distance < 50 ) {
+      //   this.body.setZeroForce();
+      //   this.body.setZeroRotation();
+      //   this.body.setZeroVelocity();
+      // } else {
+      
+      this.body.x = this.mainTower.position.x + distance * Math.cos(angle);
+      this.body.y = this.mainTower.position.y + distance * Math.sin(angle);
+      // }
     } else {
       // this.body.static = true;
       // this.body.x = 100;
       // this.body.y = 100;
+      this.mainTower.body.setZeroForce();
+      this.mainTower.body.setZeroRotation();
+      this.mainTower.body.setZeroVelocity();
       this.body.setZeroForce();
       this.body.setZeroRotation();
       this.body.setZeroVelocity();
