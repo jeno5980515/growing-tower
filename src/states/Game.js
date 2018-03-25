@@ -25,9 +25,10 @@ export default class extends Phaser.State {
     this.game.add.existing(this.mainTower);
     this.game.add.existing(this.arrowTower);
 
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.physics.arcade.enable([this.mainTower, this.arrowTower]);
-    this.game.physics.arcade.createDistanceConstraint(this.mainTower, this.arrowTower, 150);
+    this.game.physics.startSystem(Phaser.Physics.P2JS);
+    this.game.physics.p2.enable([this.mainTower, this.arrowTower]);
+    this.mainTower.body.static = true;
+
   }
 
   render() {
