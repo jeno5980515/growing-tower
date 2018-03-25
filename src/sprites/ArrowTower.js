@@ -33,24 +33,37 @@ export default class extends Phaser.Sprite {
 
   mouseDown() {
     this.isMouseDown = true;
-    console.log(1);
     // this.body.dynamic = true;
   }
 
   mouseUp() {
     this.isMouseDown = false;
-    console.log(3);
     // this.game.physics.p2.removeConstraint(this.mouseConstraint);
     // this.body.dynamic = false;
   }
 
   update() {
+    this.newMouseX = this.game.input.mousePointer.position.x;
+    this.newMouseY = this.game.input.mousePointer.position.y;
     this.angle += 3;
     if (this.isMouseDown) {
-      this.x -= 1;
-      this.y -= 1;
-      console.log(2);
+      // this.body.static = false;
+      // const dx = this.newMouseX - this.oldMouseX;
+      // const dy = this.newMouseY - this.oldMouseY;
+      // this.body.x += dx;
+      // this.body.y += dy;
+      this.body.x = this.newMouseX;
+      this.body.y = this.newMouseY;
+    } else {
+      // this.body.static = true;
+      // this.body.x = 100;
+      // this.body.y = 100;
+      this.body.setZeroForce();
+      this.body.setZeroRotation();
+      this.body.setZeroVelocity();
     }
+    this.oldMouseX = this.newMouseX;
+    this.oldMouseY = this.newMouseY;
   //   this.newMouseX = this.game.input.mousePointer.position.x;
   //   this.newMouseY = this.game.input.mousePointer.position.y;
   //   if (this.game.input.mousePointer.isDown) {
@@ -63,11 +76,6 @@ export default class extends Phaser.Sprite {
   //   this.oldMouseX = this.newMouseX;
   //   this.oldMouseY = this.newMouseY;
   // }
-  }
-
-  revive(health) {
-    console.log(health);
-    console.log(777);
   }
 
 }

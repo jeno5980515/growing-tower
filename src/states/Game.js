@@ -27,7 +27,13 @@ export default class extends Phaser.State {
 
     this.game.physics.startSystem(Phaser.Physics.P2JS);
     this.game.physics.p2.enable([this.mainTower, this.arrowTower]);
-    this.mainTower.body.static = true;
+    this.mainTower.body.clearCollision(true, true);
+    this.arrowTower.body.clearCollision(true, true);
+
+    // this.mainTower.body.static = true;
+    // this.mainTower.body.setCircle(50);
+    // this.arrowTower.body.setCircle(30);
+    const constraint = this.game.physics.p2.createRevoluteConstraint(this.mainTower, [50, 100], this.arrowTower, [0, 0]);
 
   }
 
