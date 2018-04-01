@@ -18,6 +18,7 @@ export default class extends Phaser.Sprite {
     this.events.onInputUp.add(this.mouseUp, this);
     this.cd = 20;
     this.timer = 0;
+    this.angle = 0;
   }
 
   mouseDown() {
@@ -35,10 +36,10 @@ export default class extends Phaser.Sprite {
     if (this.timer === this.cd) {
       const bullet = new Bullet({
         game: this.game,
-        x: this.world.centerX + 50,
-        y: this.world.centerY + 50,
+        x: this.body.x + 50,
+        y: this.body.y + 50,
         asset: 'Arrow',
-        angle: this.angle
+        angle: this.body.angle
       });
       this.game.add.existing(bullet);
       this.game.physics.p2.enable(bullet);
