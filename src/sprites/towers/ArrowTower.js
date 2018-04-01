@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Bullet from '../bullets/Arrow';
 
 export default class extends Phaser.Sprite {
   constructor({
@@ -15,6 +16,8 @@ export default class extends Phaser.Sprite {
     this.mainTower = mainTower;
     this.events.onInputDown.add(this.mouseDown, this);
     this.events.onInputUp.add(this.mouseUp, this);
+    this.cd = 20;
+    this.timer = 0;
   }
 
   mouseDown() {
@@ -28,6 +31,22 @@ export default class extends Phaser.Sprite {
   }
 
   update() {
+    this.timer += 1;
+    if (this.timer === this.cd) {
+      const bullet = new Bullet({
+        game: this.game,
+        x: this.world.centerX + 50,
+        y: this.world.centerY + 50,
+        asset: 'Arrow',
+        angle: this.angle
+      });
+      this.game.add.existing(bullet);
+      this.game.physics.p2.enable(bullet);
+      bullet.body.static = true;
+      this.timer = 0;
+    }
+
+
     if (this.isMouseDown) {
       const distance = 100;
       const radians = this.game.math.angleBetweenPoints(this.mainTower.position, this.game.input.mousePointer.position);

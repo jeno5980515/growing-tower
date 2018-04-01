@@ -1,7 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser';
-import MainTower from '../sprites/MainTower';
-import ArrowTower from '../sprites/ArrowTower';
+import MainTower from '../sprites/towers/MainTower';
+import ArrowTower from '../sprites/towers/ArrowTower';
 
 export default class extends Phaser.State {
   init() { }

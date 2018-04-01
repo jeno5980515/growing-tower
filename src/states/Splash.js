@@ -12,6 +12,7 @@ export default class extends Phaser.State {
     this.load.setPreloadSprite(this.loaderBar);
     this.load.image('MainTower', 'assets/images/main_tower.png');
     this.load.image('ArrowTower', 'assets/images/arrow_tower.png');
+    this.load.image('Arrow', 'assets/images/arrow.png');
   }
 
   create() {
