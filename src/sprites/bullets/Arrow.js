@@ -6,18 +6,18 @@ export default class extends Phaser.Sprite {
     x,
     y,
     asset,
-    angle
+    towerAngle
   }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
     this.game = game;
-    this.angle = angle;
-    this.a = angle;
+    this.towerAngle = towerAngle;
+    this.speed = 10;
   }
 
   update() {
-    this.body.x += Math.cos(this.a);
-    this.body.y += Math.sin(this.a);
+    this.body.x += this.speed * Math.cos(this.towerAngle);
+    this.body.y += this.speed * Math.sin(this.towerAngle);
   }
 
 }

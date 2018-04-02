@@ -17,8 +17,8 @@ export default class extends Phaser.State {
 
     this.arrowTower = new ArrowTower({
       game: this.game,
-      x: this.world.centerX + 50,
-      y: this.world.centerY + 50,
+      x: this.world.centerX + 100,
+      y: this.world.centerY,
       asset: 'ArrowTower',
       mainTower: this.mainTower
     });
