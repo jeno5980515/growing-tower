@@ -10,9 +10,10 @@ export default class extends Phaser.State {
     centerGameObjects([this.loaderBg, this.loaderBar]);
 
     this.load.setPreloadSprite(this.loaderBar);
-    this.load.image('MainTower', 'assets/images/main_tower.png');
-    this.load.image('ArrowTower', 'assets/images/arrow_tower.png');
-    this.load.image('Arrow', 'assets/images/arrow.png');
+    this.load.image('Tower_Main', 'assets/images/towers/main.png');
+    this.load.image('Tower_Arrow', 'assets/images/towers/arrow.png');
+    this.load.image('Bullet_Arrow', 'assets/images/bullets/arrow.png');
+    this.load.image('Monster_Basic', 'assets/images/monsters/basic.png');
   }
 
   create() {

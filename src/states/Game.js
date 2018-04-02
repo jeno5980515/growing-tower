@@ -1,10 +1,15 @@
 /* globals __DEV__ */
 import Phaser from 'phaser';
+import createMonster from '../helpers/createMonster';
+import { generateMonsterStartPoint } from '../helpers/random';
 import MainTower from '../sprites/towers/MainTower';
 import ArrowTower from '../sprites/towers/ArrowTower';
 
 export default class extends Phaser.State {
-  init() { }
+  init() {
+    this.monsterCd = 20;
+    this.monsterTimer = 0;
+  }
   preload() { }
 
   create() {
@@ -12,14 +17,14 @@ export default class extends Phaser.State {
       game: this.game,
       x: this.world.centerX,
       y: this.world.centerY,
-      asset: 'MainTower'
+      asset: 'Tower_Main'
     });
 
     this.arrowTower = new ArrowTower({
       game: this.game,
       x: this.world.centerX + 100,
       y: this.world.centerY,
-      asset: 'ArrowTower',
+      asset: 'Tower_Arrow',
       mainTower: this.mainTower
     });
 
@@ -46,9 +51,17 @@ export default class extends Phaser.State {
   }
 
   render() {
-    if (__DEV__) {
-      this.game.debug.spriteInfo(this.mainTower, 32, 32);
-      this.game.debug.spriteInfo(this.arrowTower, 32, 32);
+    this.monsterTimer += 1;
+    if (this.monsterTimer === this.monsterCd) {
+      const point = generateMonsterStartPoint();
+      const monster = createMonster(Object.assign(point, {
+        game: this.game,
+        type: 'Basic'
+      }));
+      this.game.add.existing(monster);
+      this.game.physics.p2.enable(monster);
+      monster.body.static = true;
+      this.monsterTimer = 0;
     }
   }
 }

@@ -36,7 +36,7 @@ export default class extends Phaser.Sprite {
         game: this.game,
         x: this.body.x,
         y: this.body.y,
-        asset: 'Arrow',
+        asset: 'Bullet_Arrow',
         towerAngle: this.body.rotation
       });
       this.game.add.existing(bullet);
