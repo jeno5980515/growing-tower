@@ -51,6 +51,10 @@ export default class extends Phaser.State {
   }
 
   render() {
+    if (__DEV__) {
+      this.game.debug.text(this.world.total, 32, 32);
+      // this.game.debug.spriteInfo(this.mainTower, 32, 32);
+    }
     this.monsterTimer += 1;
     if (this.monsterTimer === this.monsterCd) {
       const point = generateMonsterStartPoint();

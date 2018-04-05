@@ -15,12 +15,17 @@ export default class extends Phaser.Sprite {
     this.speed = 10;
     this.maxHp = 20;
     this.nowHp = this.maxHp;
+    this.checkWorldBounds = true;
+    this.events.onOutOfBounds.add(this.outOfBounds, this);
+  }
+
+  outOfBounds() {
+    this.kill();
   }
 
   update() {
     this.body.x += this.speed * Math.cos(this.beginAngle);
     this.body.y += this.speed * Math.sin(this.beginAngle);
-    this.nowHp -= 1;
     if (this.nowHp <= 0) {
       this.kill();
     }

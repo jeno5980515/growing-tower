@@ -13,6 +13,12 @@ export default class extends Phaser.Sprite {
     this.game = game;
     this.towerAngle = towerAngle;
     this.speed = 10;
+    this.checkWorldBounds = true;
+    this.events.onOutOfBounds.add(this.outOfBounds, this);
+  }
+
+  outOfBounds() {
+    this.kill();
   }
 
   update() {
