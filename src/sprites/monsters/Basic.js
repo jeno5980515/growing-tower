@@ -6,12 +6,12 @@ export default class extends Phaser.Sprite {
     x,
     y,
     asset,
-    beginAngle
+    beginRadian
   }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
     this.game = game;
-    this.beginAngle = beginAngle;
+    this.beginRadian = beginRadian;
     this.speed = 10;
     this.maxHp = 1;
     this.nowHp = this.maxHp;
@@ -31,8 +31,8 @@ export default class extends Phaser.Sprite {
   }
 
   update() {
-    this.body.x += this.speed * Math.cos(this.beginAngle);
-    this.body.y += this.speed * Math.sin(this.beginAngle);
+    this.body.x += this.speed * Math.cos(this.beginRadian);
+    this.body.y += this.speed * Math.sin(this.beginRadian);
     if (this.nowHp <= 0) {
       this.kill();
     }

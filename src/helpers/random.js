@@ -1,8 +1,15 @@
-const generateMonsterStartPoint = () => {
+import Phaser from 'phaser';
+
+const random = new Phaser.RandomDataGenerator();
+
+const generateMonsterStartPoint = (mainTower, seed) => {
+  const x = random.integerInRange(0, 500);
+  const y = random.integerInRange(0, 500);
+  const beginRadian = Phaser.Math.angleBetweenPoints({ x, y }, mainTower.position);
   return {
-    x: 0,
-    y: 0,
-    beginAngle: 0
+    x,
+    y,
+    beginRadian
   };
 }
 
