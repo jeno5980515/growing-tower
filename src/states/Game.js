@@ -7,7 +7,7 @@ import ArrowTower from '../sprites/towers/ArrowTower';
 
 export default class extends Phaser.State {
   init() {
-    this.monsterCd = 20;
+    this.monsterCd = 200;
     this.monsterTimer = 0;
   }
   preload() { }
@@ -38,6 +38,7 @@ export default class extends Phaser.State {
 
     this.mainTower.body.static = true;
     this.arrowTower.body.static = true;
+    this.game.time.events.loop(this.monsterCd, this.generateMonsterIntoGame, this);
     // this.mainTower.body.setCircle(100);
     // this.outerBound.body.setCircle(300);
     // this.outerBound.body.static = true;
@@ -50,22 +51,21 @@ export default class extends Phaser.State {
 
   }
 
+  generateMonsterIntoGame() {
+    const point = generateMonsterStartPoint();
+    const monster = createMonster(Object.assign(point, {
+      game: this.game,
+      type: 'Basic'
+    }));
+    this.game.add.existing(monster);
+    this.game.physics.p2.enable(monster);
+    monster.body.static = true;
+  }
+
   render() {
     if (__DEV__) {
       this.game.debug.text(this.world.total, 32, 32);
       // this.game.debug.spriteInfo(this.mainTower, 32, 32);
-    }
-    this.monsterTimer += 1;
-    if (this.monsterTimer === this.monsterCd) {
-      const point = generateMonsterStartPoint();
-      const monster = createMonster(Object.assign(point, {
-        game: this.game,
-        type: 'Basic'
-      }));
-      this.game.add.existing(monster);
-      this.game.physics.p2.enable(monster);
-      monster.body.static = true;
-      this.monsterTimer = 0;
     }
   }
 }
