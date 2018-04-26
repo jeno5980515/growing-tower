@@ -13,6 +13,20 @@ export default class extends Phaser.State {
   preload() { }
 
   create() {
+    // this.game.physics.startSystem(Phaser.Physics.P2JS);
+    // this.game.physics.p2.setImpactEvents(true);
+    // this.monsterCollisionGroup = this.game.physics.p2.createCollisionGroup();
+    // this.bulletCollisionGroup = this.game.physics.p2.createCollisionGroup();
+    this.bulletGroup = this.game.add.group();
+    this.monsterGroup = this.game.add.group();
+    this.towerGroup = this.game.add.group();
+    this.bulletGroup.enableBody = true;
+    this.bulletGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    this.monsterGroup.enableBody = true;
+    this.monsterGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    this.towerGroup.enableBody = true;
+    this.towerGroup.physicsBodyType = Phaser.Physics.ARCADE;
+
     this.mainTower = new MainTower({
       game: this.game,
       x: this.world.centerX,
@@ -25,30 +39,19 @@ export default class extends Phaser.State {
       x: this.world.centerX + 100,
       y: this.world.centerY,
       asset: 'Tower_Arrow',
-      mainTower: this.mainTower
+      mainTower: this.mainTower,
+      bulletGroup: this.bulletGroup
     });
 
-    this.game.add.existing(this.mainTower);
-    this.game.add.existing(this.arrowTower);
+    this.towerGroup.add(this.mainTower);
+    this.towerGroup.add(this.arrowTower);
 
-    this.game.physics.startSystem(Phaser.Physics.P2JS);
-    this.game.physics.p2.enable([this.mainTower, this.arrowTower]);
-    // this.mainTower.body.clearCollision(true, true);
-    // this.arrowTower.body.clearCollision(true, true);
+    // this.game.add.existing(this.mainTower);
+    // this.game.add.existing(this.arrowTower);
 
-    this.mainTower.body.static = true;
-    this.arrowTower.body.static = true;
+    // this.mainTower.body.static = true;
+    // this.arrowTower.body.static = true;
     this.game.time.events.loop(this.monsterCd, this.generateMonsterIntoGame, this);
-    // this.mainTower.body.setCircle(100);
-    // this.outerBound.body.setCircle(300);
-    // this.outerBound.body.static = true;
-    // this.innerBound.body.setCircle(200);
-    // this.innerBound.body.static = true;
-    // this.arrowTower.body.setCircle(30);
-
-    // this.game.physics.p2.createDistanceConstraint(this.mainTower, this.arrowTower, 150);
-    // const constraint = this.game.physics.p2.createRevoluteConstraint(this.mainTower, [30, 70], this.arrowTower, [0, 0]);
-
   }
 
   generateMonsterIntoGame() {
@@ -57,15 +60,28 @@ export default class extends Phaser.State {
       game: this.game,
       type: 'Basic'
     }));
-    this.game.add.existing(monster);
-    this.game.physics.p2.enable(monster);
-    monster.body.static = true;
+    this.monsterGroup.add(monster);
+    // this.game.add.existing(monster);
+    this.game.physics.enable(monster, Phaser.Physics.ARCADE);
+    // monster.body.setCollisionGroup(this.monsterCollisionGroup);
+    // monster.body.collides(this.bulletCollisionGroup, monster.underAttacked, this);
+    // monster.body.collides(this.bulletCollisionGroup, () => console.log('aaa'), this);
+    // monster.body.static = true;
+  }
+
+  attackHandler(bullet, monster) {
+    bullet.attack(monster);
+    monster.underAttacked(bullet);
   }
 
   render() {
     if (__DEV__) {
-      this.game.debug.text(this.world.total, 32, 32);
+      this.game.debug.text(`Tower: ${this.towerGroup.total}`, 32, 32);
+      this.game.debug.text(`Monster: ${this.monsterGroup.total}`, 32, 64);
+      this.game.debug.text(`Bullet: ${this.bulletGroup.total}`, 32, 96);
+      // this.game.debug.text(this.world.total, 32, 32);
       // this.game.debug.spriteInfo(this.mainTower, 32, 32);
     }
+    this.game.physics.arcade.overlap(this.bulletGroup, this.monsterGroup, this.attackHandler, null, this);
   }
 }

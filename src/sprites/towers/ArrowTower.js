@@ -7,7 +7,8 @@ export default class extends Phaser.Sprite {
     x,
     y,
     asset,
-    mainTower
+    mainTower,
+    bulletGroup
   }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
@@ -19,19 +20,19 @@ export default class extends Phaser.Sprite {
     this.cd = 200;
     this.timer = 0;
     this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
+    this.bulletGroup = bulletGroup;
   }
 
   generateBulletIntoGame() {
     const bullet = new Bullet({
       game: this.game,
-      x: this.body.x,
-      y: this.body.y,
+      x: this.x,
+      y: this.y,
       asset: 'Bullet_Arrow',
-      towerAngle: this.body.rotation
+      towerAngle: this.rotation
     });
-    this.game.add.existing(bullet);
-    this.game.physics.p2.enable(bullet);
-    bullet.body.static = true;
+    this.bulletGroup.add(bullet);
+    this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
   }
 
   mouseDown() {
@@ -40,16 +41,15 @@ export default class extends Phaser.Sprite {
 
   mouseUp() {
     this.isMouseDown = false;
-    this.body.static = true;
   }
 
   update() {
     if (this.isMouseDown) {
       const distance = 100;
       const radians = this.game.math.angleBetweenPoints(this.mainTower.position, this.game.input.mousePointer.position);
-      this.body.x = this.mainTower.position.x + (distance * Math.cos(radians));
-      this.body.y = this.mainTower.position.y + (distance * Math.sin(radians));
-      this.body.angle = (radians * 180) / Math.PI;
+      this.x = (this.mainTower.position.x) + (distance * Math.cos(radians));
+      this.y = (this.mainTower.position.y) + (distance * Math.sin(radians));
+      this.angle = (radians * 180) / Math.PI;
     }
   }
 }

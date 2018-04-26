@@ -13,7 +13,7 @@ export default class extends Phaser.Sprite {
     this.game = game;
     this.beginAngle = beginAngle;
     this.speed = 10;
-    this.maxHp = 20;
+    this.maxHp = 1;
     this.nowHp = this.maxHp;
     this.checkWorldBounds = true;
     this.events.onOutOfBounds.add(this.outOfBounds, this);
@@ -21,6 +21,13 @@ export default class extends Phaser.Sprite {
 
   outOfBounds() {
     this.kill();
+  }
+
+  underAttacked(bullet) {
+    this.nowHp -= 1;
+    if (this.nowHp <= 0) {
+      this.kill();
+    }
   }
 
   update() {
