@@ -55,7 +55,10 @@ export default class extends Phaser.State {
   }
 
   generateMonsterIntoGame() {
-    const point = generateMonsterStartPoint(this.mainTower);
+    const point = generateMonsterStartPoint({
+      mainTower: this.mainTower,
+      world: this.world
+    });
     const monster = createMonster(Object.assign(point, {
       game: this.game,
       type: 'Basic'
