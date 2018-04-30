@@ -17,6 +17,7 @@ export default class extends Phaser.Sprite {
     this.nowHp = this.maxHp;
     this.checkWorldBounds = true;
     this.events.onOutOfBounds.add(this.outOfBounds, this);
+    this.angle = (this.beginRadian * 180) / Math.PI;
   }
 
   outOfBounds() {
