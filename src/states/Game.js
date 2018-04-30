@@ -77,10 +77,15 @@ export default class extends Phaser.State {
     // monster.body.static = true;
   }
 
-  attackHandler(bullet, monster) {
+  bulletAttck(bullet, monster) {
     bullet.attack(monster);
     monster.underAttacked(bullet);
   }
+
+  monsterAttck(tower, monster) {
+    monster.attack(tower);
+  }
+
 
   render() {
     if (__DEV__) {
@@ -90,6 +95,7 @@ export default class extends Phaser.State {
       // this.game.debug.text(this.world.total, 32, 32);
       // this.game.debug.spriteInfo(this.mainTower, 32, 32);
     }
-    this.game.physics.arcade.overlap(this.bulletGroup, this.monsterGroup, this.attackHandler, null, this);
+    this.game.physics.arcade.overlap(this.bulletGroup, this.monsterGroup, this.bulletAttck, null, this);
+    this.game.physics.arcade.overlap(this.towerGroup, this.monsterGroup, this.monsterAttck, null, this);
   }
 }

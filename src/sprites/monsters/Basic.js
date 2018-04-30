@@ -12,12 +12,13 @@ export default class extends Phaser.Sprite {
     this.anchor.setTo(0.5);
     this.game = game;
     this.beginRadian = beginRadian;
-    this.speed = 1;
+    this.speed = 10;
     this.maxHp = 1;
     this.nowHp = this.maxHp;
     this.checkWorldBounds = true;
     this.events.onOutOfBounds.add(this.outOfBounds, this);
     this.angle = (this.beginRadian * 180) / Math.PI;
+    this.state = 'move';
   }
 
   outOfBounds() {
@@ -31,9 +32,17 @@ export default class extends Phaser.Sprite {
     }
   }
 
-  update() {
+  attack(tower) {
+    this.state = 'attack';
+  }
+
+  move() {
     this.body.x += this.speed * Math.cos(this.beginRadian);
     this.body.y += this.speed * Math.sin(this.beginRadian);
+  }
+
+  update() {
+    this[this.state]();
     if (this.nowHp <= 0) {
       this.kill();
     }

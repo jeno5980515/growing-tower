@@ -19,7 +19,7 @@ export default class extends Phaser.Sprite {
     this.events.onInputUp.add(this.mouseUp, this);
     this.cd = 200;
     this.timer = 0;
-    this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
+    // this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
     this.bulletGroup = bulletGroup;
   }
 
