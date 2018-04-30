@@ -35,7 +35,6 @@ export default class extends Phaser.State {
       y: this.world.centerY,
       asset: 'Tower_Main'
     });
-
     this.mainTower.x -= this.mainTower.width / 2;
     this.mainTower.y -= this.mainTower.height / 2;
 
@@ -50,6 +49,8 @@ export default class extends Phaser.State {
 
     this.towerGroup.add(this.mainTower);
     this.towerGroup.add(this.arrowTower);
+    this.mainTower.body.setCircle(this.mainTower.width / 2);
+    this.arrowTower.body.setCircle(this.arrowTower.width / 2);
 
     // this.game.add.existing(this.mainTower);
     // this.game.add.existing(this.arrowTower);
