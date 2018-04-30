@@ -10,7 +10,9 @@ export default class extends Phaser.State {
     this.monsterCd = 200;
     this.monsterTimer = 0;
   }
-  preload() { }
+  preload() {
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  }
 
   create() {
     // this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -34,10 +36,13 @@ export default class extends Phaser.State {
       asset: 'Tower_Main'
     });
 
+    this.mainTower.x -= this.mainTower.width / 2;
+    this.mainTower.y -= this.mainTower.height / 2;
+
     this.arrowTower = new ArrowTower({
       game: this.game,
-      x: this.world.centerX + 100,
-      y: this.world.centerY,
+      x: this.mainTower.x + 100,
+      y: this.mainTower.y,
       asset: 'Tower_Arrow',
       mainTower: this.mainTower,
       bulletGroup: this.bulletGroup

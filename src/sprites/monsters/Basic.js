@@ -12,7 +12,7 @@ export default class extends Phaser.Sprite {
     this.anchor.setTo(0.5);
     this.game = game;
     this.beginRadian = beginRadian;
-    this.speed = 10;
+    this.speed = 1;
     this.maxHp = 1;
     this.nowHp = this.maxHp;
     this.checkWorldBounds = true;
