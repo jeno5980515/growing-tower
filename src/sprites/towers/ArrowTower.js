@@ -1,6 +1,11 @@
 import Phaser from 'phaser';
 import Bullet from '../bullets/Arrow';
 
+const calculatedMap = {};
+for (let i = -180; i <= 180; i += 1) {
+  calculatedMap[i] = {};
+}
+
 export default class extends Phaser.Sprite {
   constructor({
     game,
@@ -18,9 +23,24 @@ export default class extends Phaser.Sprite {
     this.events.onInputDown.add(this.mouseDown, this);
     this.events.onInputUp.add(this.mouseUp, this);
     this.cd = 200;
+    this.distance = 100;
     this.timer = 0;
     this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
     this.bulletGroup = bulletGroup;
+    this.precalculate();
+  }
+
+  precalculate() {
+    if (calculatedMap[0][this.distance]) {
+      return;
+    }
+    for (let i = -180; i <= 180; i += 1) {
+      const r = (i * Math.PI) / 180;
+      calculatedMap[i][this.distance] = {
+        x: (this.mainTower.position.x) + (this.distance * Math.cos(r)),
+        y: (this.mainTower.position.y) + (this.distance * Math.sin(r))
+      };
+    }
   }
 
   generateBulletIntoGame() {
@@ -36,23 +56,16 @@ export default class extends Phaser.Sprite {
   }
 
   mouseDown() {
-    // this.isMouseDown = true;
   }
 
   mouseUp() {
-    // this.isMouseDown = false;
   }
 
   update() {
-    // console.log(this.mainTower.angle);
-    // if (this.isMouseDown) {
-    const distance = 100;
-    const { angle } = this.mainTower;
-    const radian = (angle * Math.PI) / 180;
-    // const radians = this.game.math.angleBetweenPoints(this.mainTower.position, this.game.input.mousePointer.position);
-    this.x = (this.mainTower.position.x) + (distance * Math.cos(radian));
-    this.y = (this.mainTower.position.y) + (distance * Math.sin(radian));
+    const angle = parseInt(this.mainTower.angle, 10);
+    const { x, y } = calculatedMap[angle][this.distance];
+    this.x = x;
+    this.y = y;
     this.angle = angle;
-    // }
   }
 }

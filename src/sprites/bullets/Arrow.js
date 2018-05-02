@@ -17,6 +17,8 @@ export default class extends Phaser.Sprite {
     this.nowHp = this.maxHp;
     this.checkWorldBounds = true;
     this.events.onOutOfBounds.add(this.outOfBounds, this);
+    this.moveX = this.speed * Math.cos(this.towerAngle);
+    this.moveY = this.speed * Math.sin(this.towerAngle);
   }
 
   outOfBounds() {
@@ -31,9 +33,8 @@ export default class extends Phaser.Sprite {
   }
 
   update() {
-    this.body.x += this.speed * Math.cos(this.towerAngle);
-    this.body.y += this.speed * Math.sin(this.towerAngle);
-    // console.log(this.game);
+    this.body.x += this.moveX;
+    this.body.y += this.moveY;
   }
 
 }

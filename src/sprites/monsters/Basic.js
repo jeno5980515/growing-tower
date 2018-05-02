@@ -19,6 +19,8 @@ export default class extends Phaser.Sprite {
     this.events.onOutOfBounds.add(this.outOfBounds, this);
     this.angle = (this.beginRadian * 180) / Math.PI;
     this.state = 'move';
+    this.moveX = this.speed * Math.cos(this.beginRadian);
+    this.moveY = this.speed * Math.sin(this.beginRadian);
   }
 
   outOfBounds() {
@@ -37,8 +39,8 @@ export default class extends Phaser.Sprite {
   }
 
   move() {
-    this.body.x += this.speed * Math.cos(this.beginRadian);
-    this.body.y += this.speed * Math.sin(this.beginRadian);
+    this.body.x += this.moveX;
+    this.body.y += this.moveY;
   }
 
   update() {

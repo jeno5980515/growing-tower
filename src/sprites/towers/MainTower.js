@@ -9,9 +9,10 @@ export default class extends Phaser.Sprite {
   }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
+    this.angleSpeed = 3;
   }
 
   update() {
-    this.angle += 3;
+    this.angle += this.angleSpeed;
   }
 }
