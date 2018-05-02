@@ -38,26 +38,44 @@ export default class extends Phaser.State {
     this.mainTower.x -= this.mainTower.width / 2;
     this.mainTower.y -= this.mainTower.height / 2;
 
-    this.arrowTower = new ArrowTower({
-      game: this.game,
-      x: this.mainTower.x + 100,
-      y: this.mainTower.y,
-      asset: 'Tower_Arrow',
-      mainTower: this.mainTower,
-      bulletGroup: this.bulletGroup
-    });
+    // this.arrowTower = new ArrowTower({
+    //   game: this.game,
+    //   x: this.mainTower.x + 100,
+    //   y: this.mainTower.y,
+    //   asset: 'Tower_Arrow',
+    //   mainTower: this.mainTower,
+    //   bulletGroup: this.bulletGroup
+    // });
 
     this.towerGroup.add(this.mainTower);
-    this.towerGroup.add(this.arrowTower);
+    // this.towerGroup.add(this.arrowTower);
     this.mainTower.body.setCircle(this.mainTower.width / 2);
-    this.arrowTower.body.setCircle(this.arrowTower.width / 2);
+    // this.arrowTower.body.setCircle(this.arrowTower.width / 2);
 
     // this.game.add.existing(this.mainTower);
     // this.game.add.existing(this.arrowTower);
 
     // this.mainTower.body.static = true;
     // this.arrowTower.body.static = true;
+    this.game.input.onDown.add(this.generateTowerIntoGame, this);
     this.game.time.events.loop(this.monsterCd, this.generateMonsterIntoGame, this);
+  }
+
+  generateTowerIntoGame() {
+    const { x, y } = this.game.input.mousePointer.position;
+    const beginRadian = Phaser.Math.angleBetweenPoints(this.mainTower.position, { x, y });
+    const tower = new ArrowTower({
+      game: this.game,
+      x,
+      y,
+      asset: 'Tower_Arrow',
+      mainTower: this.mainTower,
+      bulletGroup: this.bulletGroup,
+      beginAngle: (beginRadian * 180) / Math.PI
+    });
+
+    this.towerGroup.add(tower);
+    tower.body.setCircle(tower.width / 2);
   }
 
   generateMonsterIntoGame() {

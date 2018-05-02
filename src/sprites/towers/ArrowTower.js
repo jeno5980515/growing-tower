@@ -13,7 +13,8 @@ export default class extends Phaser.Sprite {
     y,
     asset,
     mainTower,
-    bulletGroup
+    bulletGroup,
+    beginAngle
   }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
@@ -27,6 +28,7 @@ export default class extends Phaser.Sprite {
     this.timer = 0;
     this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
     this.bulletGroup = bulletGroup;
+    this.beginAngle = beginAngle - this.mainTower.angle;
     this.precalculate();
   }
 
@@ -62,10 +64,9 @@ export default class extends Phaser.Sprite {
   }
 
   update() {
-    const angle = parseInt(this.mainTower.angle, 10);
-    const { x, y } = calculatedMap[angle][this.distance];
+    this.angle = this.mainTower.angle + this.beginAngle;
+    const { x, y } = calculatedMap[parseInt(this.angle, 10)][this.distance];
     this.x = x;
     this.y = y;
-    this.angle = angle;
   }
 }
