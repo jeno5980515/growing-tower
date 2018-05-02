@@ -36,20 +36,23 @@ export default class extends Phaser.Sprite {
   }
 
   mouseDown() {
-    this.isMouseDown = true;
+    // this.isMouseDown = true;
   }
 
   mouseUp() {
-    this.isMouseDown = false;
+    // this.isMouseDown = false;
   }
 
   update() {
-    if (this.isMouseDown) {
-      const distance = 100;
-      const radians = this.game.math.angleBetweenPoints(this.mainTower.position, this.game.input.mousePointer.position);
-      this.x = (this.mainTower.position.x) + (distance * Math.cos(radians));
-      this.y = (this.mainTower.position.y) + (distance * Math.sin(radians));
-      this.angle = (radians * 180) / Math.PI;
-    }
+    // console.log(this.mainTower.angle);
+    // if (this.isMouseDown) {
+    const distance = 100;
+    const { angle } = this.mainTower;
+    const radian = (angle * Math.PI) / 180;
+    // const radians = this.game.math.angleBetweenPoints(this.mainTower.position, this.game.input.mousePointer.position);
+    this.x = (this.mainTower.position.x) + (distance * Math.cos(radian));
+    this.y = (this.mainTower.position.y) + (distance * Math.sin(radian));
+    this.angle = angle;
+    // }
   }
 }
