@@ -6,19 +6,20 @@ export default class extends Phaser.Sprite {
     x,
     y,
     asset,
-    towerAngle
+    towerRadian
   }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
     this.game = game;
-    this.towerAngle = towerAngle;
+    this.towerRadian = towerRadian;
+    this.angle = (this.towerRadian * 180) / Math.PI;
     this.speed = 10;
     this.maxHp = 1;
     this.nowHp = this.maxHp;
     this.checkWorldBounds = true;
     this.events.onOutOfBounds.add(this.outOfBounds, this);
-    this.moveX = this.speed * Math.cos(this.towerAngle);
-    this.moveY = this.speed * Math.sin(this.towerAngle);
+    this.moveX = this.speed * Math.cos(this.towerRadian);
+    this.moveY = this.speed * Math.sin(this.towerRadian);
   }
 
   outOfBounds() {

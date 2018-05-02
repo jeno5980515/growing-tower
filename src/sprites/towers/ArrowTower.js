@@ -51,7 +51,7 @@ export default class extends Phaser.Sprite {
       x: this.x,
       y: this.y,
       asset: 'Bullet_Arrow',
-      towerAngle: this.rotation
+      towerRadian: this.rotation
     });
     this.bulletGroup.add(bullet);
     this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
