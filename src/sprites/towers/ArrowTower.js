@@ -6,6 +6,12 @@ for (let i = -180; i <= 180; i += 1) {
   calculatedMap[i] = {};
 }
 
+const fallingMap = {};
+for (let i = -180; i <= 180; i += 1) {
+  fallingMap[i] = {};
+}
+
+
 export default class extends Phaser.Sprite {
   constructor({
     game,
@@ -21,15 +27,16 @@ export default class extends Phaser.Sprite {
     this.game = game;
     this.inputEnabled = true;
     this.mainTower = mainTower;
-    this.events.onInputDown.add(this.mouseDown, this);
-    this.events.onInputUp.add(this.mouseUp, this);
     this.cd = 200;
     this.distance = 100;
     this.timer = 0;
-    this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
+    this.heavy = 5;
+    // this.game.time.events.loop(this.cd, this.generateBulletIntoGame, this);
     this.bulletGroup = bulletGroup;
-    this.beginAngle = beginAngle - this.mainTower.angle;
+    this.beginAngle = beginAngle;
+    this.offsetAngle = beginAngle - this.mainTower.angle;
     this.precalculate();
+    this.state = 'falling';
   }
 
   precalculate() {
@@ -41,6 +48,16 @@ export default class extends Phaser.Sprite {
       calculatedMap[i][this.distance] = {
         x: (this.mainTower.position.x) + (this.distance * Math.cos(r)),
         y: (this.mainTower.position.y) + (this.distance * Math.sin(r))
+      };
+    }
+    if (fallingMap[0][this.heavy]) {
+      return;
+    }
+    for (let i = -180; i <= 180; i += 1) {
+      const r = (i * Math.PI) / 180;
+      fallingMap[i][this.heavy] = {
+        vx: -this.heavy * Math.cos(r),
+        vy: -this.heavy * Math.sin(r)
       };
     }
   }
@@ -57,16 +74,21 @@ export default class extends Phaser.Sprite {
     this.game.physics.enable(bullet, Phaser.Physics.ARCADE);
   }
 
-  mouseDown() {
+  falling() {
+    this.angle = this.beginAngle;
+    const { vx, vy } = fallingMap[parseInt(this.angle, 10)][this.heavy];
+    this.x += vx;
+    this.y += vy;
   }
 
-  mouseUp() {
-  }
-
-  update() {
-    this.angle = this.mainTower.angle + this.beginAngle;
+  attack() {
+    this.angle = this.mainTower.angle + this.offsetAngle;
     const { x, y } = calculatedMap[parseInt(this.angle, 10)][this.distance];
     this.x = x;
     this.y = y;
+  }
+
+  update() {
+    this[this.state]();
   }
 }
